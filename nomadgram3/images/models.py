@@ -31,6 +31,9 @@ class Image(TimeStampedModel):
     creator = models.ForeignKey(user_models.User, on_delete=models.CASCADE, null=True)
 
 
+    def __str__(self):
+        return '{} - {}'.format(self.location, self.caption)
+
 class Comment(TimeStampedModel):
 
     """ Comment Model """
