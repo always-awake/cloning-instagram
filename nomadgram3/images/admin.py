@@ -5,14 +5,64 @@ from . import models
 @admin.register(models.Image)
 class ImageAdmin(admin.ModelAdmin):
 #이 클래스는 모델들이 어드민패널에서 어떻게 보이게 될지 결정해주는 클래스이다.
-    pass
+
+    #해당 오브젝트 편집(수정)화면으로 가는 링크를 걸어놓을 필드 설정
+    list_display_links = (
+        'location',
+    )
+
+    list_filter = (
+        'file',
+        'location',
+        'creator',
+    )
+
+    list_display = (
+        'file',
+        'location',
+        'caption',
+        'creator',
+        'created_at',
+        'updated_at',     
+    )
 
 
 @admin.register(models.Comment)
 class CommentAdmin(admin.ModelAdmin):
+    
+    list_display_links = (
+        'message',
+    )
 
-    pass
+    list_filter = (
+        'image',
+        'creator',
+    )
+
+    list_display =(
+        'message',
+        'image',
+        'creator',
+        'created_at',
+        'updated_at',
+    )
+    
+
 @admin.register(models.Like)
 class LikeAdmin(admin.ModelAdmin):
 
-    pass
+    list_display_links = (
+        'image',
+    )
+
+    list_filter = (
+        'image',
+        'creator',
+    )
+
+    list_display = (
+        'image',
+        'creator',
+        'created_at',
+        'updated_at',
+    )

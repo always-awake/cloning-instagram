@@ -6,9 +6,10 @@ from django.utils.translation import ugettext_lazy as _
 # 이름이 같으면 충돌이 일어난다. 
 # user 속 model에는 DateField, CharField 같은 것이 없음
 from nomadgram3.users import models as user_models
+from django.utils.encoding import python_2_unicode_compatible
 
 
-
+@python_2_unicode_compatible
 class TimeStampedModel(models.Model):
 
     """Base Model"""
@@ -21,6 +22,7 @@ class TimeStampedModel(models.Model):
         abstract = True
 
 
+@python_2_unicode_compatible
 class Image(TimeStampedModel):
 
     """ Image Model """
@@ -30,10 +32,12 @@ class Image(TimeStampedModel):
     caption = models.TextField()
     creator = models.ForeignKey(user_models.User, on_delete=models.CASCADE, null=True)
 
-
+    #string representation
     def __str__(self):
         return '{} - {}'.format(self.location, self.caption)
 
+
+@python_2_unicode_compatible
 class Comment(TimeStampedModel):
 
     """ Comment Model """
@@ -42,10 +46,18 @@ class Comment(TimeStampedModel):
     creator = models.ForeignKey(user_models.User, on_delete=models.CASCADE, null=True)
     image = models.ForeignKey(Image, on_delete=models.CASCADE, null=True)
 
+    #string representation
+    def __str__(self):
+        return self.message
 
+@python_2_unicode_compatible
 class Like(TimeStampedModel):
 
     """ Like Model """
 
     creator = models.ForeignKey(user_models.User, on_delete=models.CASCADE, null=True)
     image = models.ForeignKey(Image, on_delete=models.CASCADE, null=True)
+
+    #string representation
+    def __str__(self):
+        return 'User: {} - Image Caption: {}'.format(self.creator.username, self.image.caption)
