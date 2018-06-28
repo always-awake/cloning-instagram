@@ -44,7 +44,7 @@ class Comment(TimeStampedModel):
 
     message = models.TextField()
     creator = models.ForeignKey(user_models.User, on_delete=models.CASCADE, null=True)
-    image = models.ForeignKey(Image, on_delete=models.CASCADE, null=True)
+    image = models.ForeignKey(Image, on_delete=models.CASCADE, null=True, related_name='comments')
 
     #string representation
     def __str__(self):
@@ -56,7 +56,7 @@ class Like(TimeStampedModel):
     """ Like Model """
 
     creator = models.ForeignKey(user_models.User, on_delete=models.CASCADE, null=True)
-    image = models.ForeignKey(Image, on_delete=models.CASCADE, null=True)
+    image = models.ForeignKey(Image, on_delete=models.CASCADE, null=True, related_name='likes')
 
     #string representation
     def __str__(self):

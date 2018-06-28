@@ -14,12 +14,25 @@ urlpatterns = [
     ),
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
+
     # User management
+
+    #users urls
     path(
         "users/",
         include("nomadgram3.users.urls", namespace="users"),
     ),
+
+    #images urls
+    path(
+        "images/",
+        include("nomadgram3.images.urls", namespace="images"),
+    ),
+
+
     path("accounts/", include("allauth.urls")),
+
+
     # Your stuff: custom urls includes go here
 ] + static(
     settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
