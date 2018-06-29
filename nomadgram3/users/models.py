@@ -16,6 +16,7 @@ class User(AbstractUser):
         ('not-specified', 'Not specified'),
     )
 
+    profile_image = models.ImageField(blank=True, null=True)
     name = models.CharField(_("Name of User"), blank=True, max_length=255)
     website = models.URLField(blank=True, null=True)
     bio = models.TextField(blank=True, null=True)

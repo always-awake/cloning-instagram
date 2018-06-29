@@ -14,8 +14,8 @@ class TimeStampedModel(models.Model):
 
     """Base Model"""
 
-    created_at = models.DateField(auto_now_add=True) #게시 시간 추가
-    updated_at = models.DateField(auto_now=True) #수정 시간 새로고침
+    created_at = models.DateTimeField(auto_now_add=True) #게시 시간 추가
+    updated_at = models.DateTimeField(auto_now=True) #수정 시간 새로고침
 
     class Meta:
 
@@ -29,12 +29,26 @@ class Image(TimeStampedModel):
 
     file = models.ImageField()
     location = models.CharField(max_length=140)
-    caption = models.TextField()
-    creator = models.ForeignKey(user_models.User, on_delete=models.CASCADE, null=True)
+    caption = models.TextField(blank=True)
+    creator = models.ForeignKey(user_models.User, on_delete=models.CASCADE, null=True, related_name='images')
+
+    @property
+    def like_count(self):
+        return self.likes.count()
+        #return self.likes.all().count()
+
+    @property
+    def comment_count(self):
+        return self.comments.all().count()
 
     #string representation
     def __str__(self):
         return '{} - {}'.format(self.location, self.caption)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    
 
 
 @python_2_unicode_compatible
