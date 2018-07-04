@@ -18,6 +18,7 @@ class ImageAdmin(admin.ModelAdmin):
     )
 
     list_display = (
+        'id',
         'file',
         'location',
         'caption',

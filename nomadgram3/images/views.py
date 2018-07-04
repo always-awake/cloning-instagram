@@ -1,5 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import status
 from . import models, serializers
 
 
@@ -36,6 +37,16 @@ class LikeImage(APIView):
 
     def get(self, request, image_id, format=None):
 
-        print(image_id)
+        user = request.user
 
-        return Response(status=200)
+        try:
+            found_image = models.Image.objects.get(id=image_id)
+        except models.Image.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        new_like = models.Like.objects.create(
+            creator=user,
+            image=found_image
+        )
+
+        return Response(status=status.HTTP_200_OK)
