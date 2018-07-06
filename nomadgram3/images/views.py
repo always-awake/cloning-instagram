@@ -57,7 +57,7 @@ class LikeImage(APIView):
                 creator=user,
                 image=found_image
             )
-            
+
             new_like.save()
 
             return Response(status=status.HTTP_201_CREATED)

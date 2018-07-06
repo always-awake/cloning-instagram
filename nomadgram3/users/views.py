@@ -1,43 +1,36 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse
-from django.views.generic import DetailView, ListView, RedirectView, UpdateView
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from . import models, serializers
 
-from .models import User
+class Explore(APIView):
 
+    def get(self, request, format=None):
 
-class UserDetailView(LoginRequiredMixin, DetailView):
-    model = User
-    # These next two lines tell the view to index lookups by username
-    slug_field = "username"
-    slug_url_kwarg = "username"
+        users = models.User.objects.all()
 
+        serializer = serializers.ExploreUserSerializer(users, many=True)
 
-class UserRedirectView(LoginRequiredMixin, RedirectView):
-    permanent = False
-
-    def get_redirect_url(self):
-        return reverse("users:detail", kwargs={"username": self.request.user.username})
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
 
 
-class UserUpdateView(LoginRequiredMixin, UpdateView):
+class FollowUser(APIView):
 
-    fields = ["name"]
+    def post(self, request, user_id, format=None):
 
-    # we already imported User in the view code above, remember?
-    model = User
+        user = request.user
 
-    # send the user back to their own page after a successful update
+        try:
+            user_to_follow = models.User.objects.get(id=user_id)
+        except models.User.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
-    def get_success_url(self):
-        return reverse("users:detail", kwargs={"username": self.request.user.username})
+        user.following.add(user_to_follow)
 
-    def get_object(self):
-        # Only get the User record for the user making the request
-        return User.objects.get(username=self.request.user.username)
+        user.save()
+        
+        user_to_follow.followers.add(user)
 
-
-class UserListView(LoginRequiredMixin, ListView):
-    model = User
-    # These next two lines tell the view to index lookups by username
-    slug_field = "username"
-    slug_url_kwarg = "username"
+        user_to_follow.save()
+        
+        return Response(status=status.HTTP_200_OK)
