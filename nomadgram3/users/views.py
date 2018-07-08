@@ -9,7 +9,7 @@ class Explore(APIView):
 
         users = models.User.objects.all()
 
-        serializer = serializers.ExploreUserSerializer(users, many=True)
+        serializer = serializers.ListUserSerializer(users, many=True)
 
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
@@ -56,3 +56,18 @@ class UnFollowUser(APIView):
         user_to_follow.save()
         
         return Response(status=status.HTTP_200_OK)
+
+
+class Userprofile(APIView):
+
+    def get(self, request, username, format=None):
+
+        try:
+            found_user = models.User.objects.get(username=username)
+        except models.User.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = serializers.UserProfileSerializer(found_user)
+
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
