@@ -7,6 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 # user 속 model에는 DateField, CharField 같은 것이 없음
 from nomadgram3.users import models as user_models
 from django.utils.encoding import python_2_unicode_compatible
+from taggit.managers import TaggableManager
 
 
 @python_2_unicode_compatible
@@ -31,6 +32,7 @@ class Image(TimeStampedModel):
     location = models.CharField(max_length=140)
     caption = models.TextField(blank=True)
     creator = models.ForeignKey(user_models.User, on_delete=models.CASCADE, null=True, related_name='images')
+    tags = TaggableManager()
 
     @property
     def like_count(self):
@@ -42,7 +44,7 @@ class Image(TimeStampedModel):
         return self.comments.all().count()
 
     #string representation
-    def __str__(self):
+    def __str__(self):  
         return '{} - {}'.format(self.location, self.caption)
 
     class Meta:
