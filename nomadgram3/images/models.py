@@ -6,7 +6,6 @@ from django.utils.translation import ugettext_lazy as _
 # 이름이 같으면 충돌이 일어난다. 
 # user 속 model에는 DateField, CharField 같은 것이 없음
 from nomadgram3.users import models as user_models
-from django.utils.encoding import python_2_unicode_compatible
 from taggit.managers import TaggableManager
 
 
