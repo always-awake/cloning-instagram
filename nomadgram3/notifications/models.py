@@ -13,8 +13,8 @@ class Notification(image_models.TimeStampedModel):
         ('follow', 'Follow'),
     )
 
-    creator = models.ForeignKey(user_models.User, on_delete=models.CASCADE, related_name='creator')
-    to = models.ForeignKey(user_models.User, on_delete=models.CASCADE, related_name='to')
+    creator = models.ForeignKey(user_models.User, on_delete=models.CASCADE, related_name='notifications_creator')
+    to = models.ForeignKey(user_models.User, on_delete=models.CASCADE, related_name='notifications_to')
     notifications_type = models.CharField(max_length=20, choices=TYPE_CHOICE)
-    image = models.ForeignKey(image_models.Image, on_delete=models.CASCADE, null=True, blank=True)
- 
+    image = models.ForeignKey(image_models.Image, on_delete=models.CASCADE, null=True, blank=True, related_name='notifications_image')
+    comment = models.ForeignKey(image_models.Comment, on_delete=models.CASCADE, null=True, blank=True, related_name='notifications_comment')

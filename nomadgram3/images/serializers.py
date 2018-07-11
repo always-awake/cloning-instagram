@@ -2,6 +2,17 @@ from rest_framework import serializers
 from . import models
 from nomadgram3.users import models as user_models
 
+
+class SmallImageSerializers(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.Image
+        fields = (
+            'file',
+        )
+    
+
+
 class CountImageSerializer(serializers.ModelSerializer):
 
     class Meta:

@@ -31,6 +31,12 @@ urlpatterns = [
         include("nomadgram3.images.urls", namespace="images"),
     ),
 
+    #notifications urls
+    path(
+        "notifications/",
+        include("nomadgram3.notifications.urls", namespace="notifications"),
+    ),
+
 
     path("accounts/", include("allauth.urls")),
 
