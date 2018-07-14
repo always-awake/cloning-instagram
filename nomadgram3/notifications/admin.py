@@ -8,4 +8,5 @@ class NotificationAdmin(admin.ModelAdmin):
         'creator',
         'to',
         'notifications_type',
+        'created_at',
     )
