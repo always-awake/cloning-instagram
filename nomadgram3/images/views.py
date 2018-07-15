@@ -16,8 +16,6 @@ class Feed(APIView):
         #사용자가 following 하는 users의 최근 사진 2장을 저장하기 위한 배열 생성
         image_list = []
 
-        print(following_users)
-
         for following_user in following_users:
 
             user_images = following_user.images.all()[:2]
@@ -25,6 +23,12 @@ class Feed(APIView):
             for image in user_images:
 
                 image_list.append(image)
+
+        my_image = user.images.all()[:]
+
+        for image in my_image:
+
+            image_list.append(image)
 
         sorted_list = sorted(
             image_list, key=lambda image:image.created_at, reverse=True)
