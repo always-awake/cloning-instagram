@@ -40,6 +40,7 @@ class CommentAdmin(admin.ModelAdmin):
     )
 
     list_display =(
+        'id',
         'message',
         'image',
         'creator',
