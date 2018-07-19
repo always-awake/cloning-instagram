@@ -172,4 +172,15 @@ class Search(APIView):
 
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-            
+class ChangePassword(APIView):
+
+    def put(self, request, username, format=None):
+
+        user = request.user
+
+        current_password = request.data.get('current_password', None)
+
+        if current_password is not None:
+
+            user.check_password
+
