@@ -205,7 +205,6 @@ class ImageDetail(APIView):
         except models.Image.DoesNotExist:
             return None
 
-
     def get(self, request, image_id, format=None):
 
         user = request.user
